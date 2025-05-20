@@ -17,6 +17,7 @@ import com.revisao.ecommerce.repositories.PedidoRepository;
 import com.revisao.ecommerce.repositories.ProdutoRepository;
 import com.revisao.ecommerce.repositories.UsuarioRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -55,6 +56,11 @@ public class PedidoService
         pedido = pedidoRepository.save(pedido);
         itemDoPedidoRepository.saveAll(pedido.getItems());
         return new PedidoDTO(pedido);
+    }
+    
+    public Pedido findById(Long id) {
+        return pedidoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Pedido não encontrado"));
     }
 
 }
